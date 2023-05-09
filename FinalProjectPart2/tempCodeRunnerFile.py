@@ -1,2 +1,0 @@
-
-# storing item types
