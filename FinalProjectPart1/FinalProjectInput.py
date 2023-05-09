@@ -146,3 +146,55 @@ with open('DamagedInventory.csv', mode='w', newline='') as file:
 
     for item in damaged_items:
         writer.writerow([item.ID, item.man_name, item.item_type, item.item_price, item.service_date])
+
+#Part 2
+#store the data in a dictionary
+
+data = {"id" : [1167234, 2347800, 2390112, 9034210, 7346234, 1009453, 3001265],
+
+"manufacturer":["Apple", "Apple", "Dell", "Dell", "Lenovo", "Lenovo", "Samsung"],
+
+"type" : ["phone", "laptop", "laptop", "tower", "laptop", "tower", "phone"],
+
+"price": [534, 999, 799, 345, 239, 599, 1200],
+
+"date": [2/1/2022, 7/3/2020, 7/2/2020, 5/27/2020, 9/1/2021, 10/1/2021, 12/1/2023],
+
+"condition": [' ', ' ', ' ', ' ', ' ', 'damaged', ' ', ' ']}
+
+#create while loop to ask user input
+#continue prompt user input until q
+while True:
+    user_input = input("Enter item or q to quit: ")
+    if user_input == "q":
+        break
+    item = ""
+    types = ""
+    for i in data["manufacturer"]:
+        if i in user_input:
+            item = i
+    for i in data["type"]:
+        if i in user_input:
+            types = i
+    if(item == "" or types == ""):                             #checking for bad input otherwise procceed to print message of item
+        print("No such item in inventory")
+    else:
+        details = ["", "", "", 0]
+        for i in range(len(data["id"])):
+            if(data["manufacturer"][i] == item and data["type"][i] == types):
+                if(details[3] < data["price"][i]):
+                    details[0] = data["id"][i]
+                    details[1] = data["manufacturer"][i]
+                    details[2] = data["type"][i]
+                    details[3] = data["price"][i]
+        print("Your item is " + str(details[0]) + " " + str(details[1]) + " " + str(details[2]) + " " + str(details[3]))
+
+    #create a list of other recommended items base on user manufacturer input
+    consider = []
+    for i in range(len(data["id"])):
+        if(data["type"][i] == types and data["manufacturer"][i] != item):
+            consider.append([data["id"][i], data["manufacturer"][i], data["type"][i], data["price"][i]])
+    if(len(consider) != 0):
+        print("You may, also, consider:")
+        for i in range(len(consider)):
+            print(str(consider[i][0]) + " " + consider[i][1] + " " + consider[i][2] + " " + str(consider[i][3]))
